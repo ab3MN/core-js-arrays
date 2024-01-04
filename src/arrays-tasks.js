@@ -292,8 +292,8 @@ function createNDimensionalArray(/* n, size */) {
  *    flattenArray(['a', ['b', ['c', 'd'], 'e'], 'f']) => ['a', 'b', 'c', 'd', 'e', 'f']
  *    flattenArray([1, 2, 3, 4]) => [1, 2, 3, 4]
  */
-function flattenArray(/* nestedArray */) {
-  throw new Error('Not implemented');
+function flattenArray(nestedArray) {
+  return nestedArray.flat();
 }
 
 /**
@@ -309,8 +309,8 @@ function flattenArray(/* nestedArray */) {
  *   selectMany([[1, 2], [3, 4], [5, 6]], (x) => x) =>   [ 1, 2, 3, 4, 5, 6 ]
  *   selectMany(['one','two','three'], (x) => x.split('')) =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-function selectMany(/* arr, childrenSelector */) {
-  throw new Error('Not implemented');
+function selectMany(arr, childrenSelector) {
+  return arr.flatMap((el) => childrenSelector(el));
 }
 
 /**
@@ -326,8 +326,11 @@ function selectMany(/* arr, childrenSelector */) {
  *   calculateBalance([ [ 10, 8 ], [ 1, 5 ] ])  => (10 - 8) + (1 - 5) = 2 + -4 = -2
  *   calculateBalance([]) => 0
  */
-function calculateBalance(/* arr */) {
-  throw new Error('Not implemented');
+const calculateDifferNummber = (arr) =>
+  arr.reduce((acc, number) => acc - number);
+
+function calculateBalance(arr) {
+  return arr.reduce((acc, el) => acc + calculateDifferNummber(el), 0);
 }
 
 /**
@@ -381,8 +384,10 @@ function generateOdds(len) {
  *   getElementByIndices(['one','two','three'], [2]) => 'three'  (arr[2])
  *   getElementByIndices([[[ 1, 2, 3]]], [ 0, 0, 1 ]) => 2        (arr[0][0][1])
  */
-function getElementByIndices(/* arr, indices */) {
-  throw new Error('Not implemented');
+function getElementByIndices(arr, indices) {
+  return indices.length === 0
+    ? arr
+    : getElementByIndices(arr[indices[0]], indices.slice(1));
 }
 
 /**
@@ -457,8 +462,27 @@ function getIndicesOfOddNumbers(numbers) {
  *    getHexRGBValues([ 0, 255, 16777215]) => [ '#000000', '#0000FF', '#FFFFFF' ]
  *    getHexRGBValues([]) => []
  */
-function getHexRGBValues(/* arr */) {
-  throw new Error('Not implemented');
+const componentToHex = (c) => {
+  const hex = c.toString(16);
+  switch (hex.length) {
+    case 5:
+      return `#0${hex}`;
+    case 4:
+      return `#00${hex}`;
+    case 3:
+      return `#000${hex}`;
+    case 2:
+      return `#0000${hex}`;
+    case 1:
+      return `#00000${hex}`;
+    default:
+      return `#${hex}`;
+  }
+};
+
+function getHexRGBValues(arr) {
+  if (arr.length === 0) return arr;
+  return arr.map((el) => componentToHex(el).toUpperCase());
 }
 
 /**
@@ -508,8 +532,22 @@ function findCommonElements(arr1, arr2) {
  *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => 2
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => 3
  */
-function findLongestIncreasingSubsequence(/* nums */) {
-  throw new Error('Not implemented');
+function findLongestIncreasingSubsequence(nums) {
+  let count = 0;
+  let prev = -Infinity;
+  const subsequences = [];
+
+  nums.forEach((el) => {
+    if (el > prev) {
+      count += 1;
+      subsequences.push(count);
+      prev = el;
+    } else {
+      prev = -Infinity;
+      count = 0;
+    }
+  });
+  return Math.max(...subsequences);
 }
 
 /**
