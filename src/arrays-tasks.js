@@ -277,8 +277,10 @@ function distinct(arr) {
  *    createNDimensionalArray(4, 2) => [[[[0, 0], [0, 0]], [[0, 0], [0, 0]]], [[[0, 0], [0, 0]], [[0, 0], [0, 0]]]]
  *    createNDimensionalArray(1, 1) => [0]
  */
-function createNDimensionalArray(/* n, size */) {
-  throw new Error('Not implemented');
+function createNDimensionalArray(n, size) {
+  return n === 1
+    ? new Array(size).fill(0)
+    : Array.from({ length: size }, () => createNDimensionalArray(n - 1, size));
 }
 
 /**
@@ -345,14 +347,22 @@ function calculateBalance(arr) {
  *    createChunks(['a', 'b', 'c', 'd', 'e'], 2) => [['a', 'b'], ['c', 'd'], ['e']]
  *    createChunks([10, 20, 30, 40, 50], 1) => [[10], [20], [30], [40], [50]]
  */
-function createChunks(/* arr, chunkSize */) {
-  throw new Error('Not implemented');
+function createChunks(arr, chunkSize) {
+  const res = arr.reduce((acc, item, i) => {
+    const index = Math.floor(i / chunkSize);
+    if (!acc[index]) acc[index] = [];
+
+    acc[index].push(item);
+    return acc;
+  }, []);
+
+  return res;
 }
 
 /**
  * Generates an array of odd numbers of the specified length.
  *
- * @param {number} len - The length of an array.
+ * @param {number} len - The length of an array.1
  * @return {array} - An array of odd numbers.
  *
  * @example
@@ -548,7 +558,7 @@ function findLongestIncreasingSubsequence(nums) {
     }
     return el;
   });
-  return Math.max(...subsequences) + 1;
+  return Math.max(...subsequences);
 }
 
 /**
