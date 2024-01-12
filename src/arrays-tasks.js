@@ -553,8 +553,8 @@ function findLongestIncreasingSubsequence(nums) {
       subsequences.push(count);
       prev = el;
     } else {
-      prev = -Infinity;
-      count = 0;
+      prev = el;
+      count = 1;
     }
     return el;
   });
