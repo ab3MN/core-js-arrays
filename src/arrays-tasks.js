@@ -293,7 +293,7 @@ function createNDimensionalArray(/* n, size */) {
  *    flattenArray([1, 2, 3, 4]) => [1, 2, 3, 4]
  */
 function flattenArray(nestedArray) {
-  return nestedArray.flat();
+  return nestedArray.flat(2);
 }
 
 /**
@@ -537,7 +537,7 @@ function findLongestIncreasingSubsequence(nums) {
   let prev = -Infinity;
   const subsequences = [];
 
-  nums.forEach((el) => {
+  nums.map((el) => {
     if (el > prev) {
       count += 1;
       subsequences.push(count);
@@ -546,8 +546,9 @@ function findLongestIncreasingSubsequence(nums) {
       prev = -Infinity;
       count = 0;
     }
+    return el;
   });
-  return Math.max(...subsequences);
+  return Math.max(...subsequences) + 1;
 }
 
 /**
